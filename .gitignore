@@ -89,7 +89,6 @@ android/res/values/styles.xml
 android/src/fr/tommarx/gameenginetest/AndroidLauncher.java
 core/build.gradle
 core/src/GameClass.gwt.xml
-core/src/fr/tommarx/gameenginetest/GameClass.java
 desktop/build.gradle
 desktop/src/fr/tommarx/gameenginetest/desktop/DesktopLauncher.java
 gradle/wrapper/gradle-wrapper.jar
