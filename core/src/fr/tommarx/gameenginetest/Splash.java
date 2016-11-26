@@ -20,15 +20,18 @@ public class Splash extends Screen {
         text = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
         text.addComponent(new Text(text, "Tom Marx", Color.WHITE));
         addGameObject(text);
-        ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
-        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f));
-        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f));
-        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f));
+        //((Text) text.getComponentByClass("Text")).getColor().a = 0f;
+        /*Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f, false));
+        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f, false));*/
+        Game.tweenManager.goTween(new Tween("Scale", Tween.LINEAR_EASE_NONE, 0, 1f, 2f, 0f, true));
     }
 
     public void update() {
-        Game.debug(1, ((Text) text.getComponentByClass("Text")).getColor().a + "");
+        /*Game.debug(1, ((Text) text.getComponentByClass("Text")).getColor().a + "");
         ((Text) text.getComponentByClass("Text")).getColor().a = Game.tweenManager.getValue("Alpha");
-        text.getTransform().getPosition().y = Game.tweenManager.getValue("Y") * Gdx.graphics.getHeight() / 2;
+        text.getTransform().getPosition().y = Game.tweenManager.getValue("Y") * Gdx.graphics.getHeight() / 2;*/
+        Game.debug(1, Game.tweenManager.getValue("Scale") + "");
+        text.getTransform().setScale(new Vector2(Game.tweenManager.getValue("Scale") / 2 + 1, Game.tweenManager.getValue("Scale") / 2 + 1));
     }
 }

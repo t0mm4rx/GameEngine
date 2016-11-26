@@ -22,10 +22,10 @@ public class Tween {
     private float duration, time, delay, value, from, change;
     private int easingType;
     private double timeB;
-    private boolean isFinished;
+    private boolean isFinished, repeat;
     private String name;
 
-    public Tween(String name, int easingType, float from, float change, float duration, float delay) {
+    public Tween(String name, int easingType, float from, float change, float duration, float delay, boolean repeat) {
         this.name = name;
         this.duration = duration;
         this.delay = delay;
@@ -35,6 +35,7 @@ public class Tween {
         value = from;
         timeB = System.currentTimeMillis();
         isFinished = false;
+        this.repeat = repeat;
     }
 
     public String getName() {
@@ -94,7 +95,17 @@ public class Tween {
         }
 
         if (time >= duration) {
-            isFinished = true;
+            if (!repeat) {
+                isFinished = true;
+            } else {
+                time = 0;
+                if (value > .9f) {
+                    from = 1f;
+                } else {
+                    from = 0f;
+                }
+                change = -change;
+            }
         }
     }
 

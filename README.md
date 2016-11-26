@@ -138,11 +138,11 @@ The game engine has an integrate tweening system. The Game class has a TweenMana
         addGameObject(text);
         //Set the alpha to 0
         ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
-        //Create a tween named "Alpha", with start value of 0, wich change to 1, in 3 seconds and no delay
-        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f));
+        //Create a tween named "Alpha", with start value of 0, wich change to 1, in 3 seconds, no delay and doesn't repeat
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
         //Create a second tween named "Alpha" also, wich starts from 1 and change in direction of -1, in 3 seconds and with 3 seconds of delay
-        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f));
-        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f));
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f; false));
+        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f, false));
     }
 
     public void update() {
