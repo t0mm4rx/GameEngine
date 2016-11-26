@@ -1,0 +1,195 @@
+# GameEngine
+## Initialisation
+Create a LibGDX project (via the setup tool), and then just add the engine jar.
+
+**Make sure that you have the universal tween engine and the FreeType extension added to your project**
+## Game class
+The structure of an empty game class is the following :
+```java
+package fr.tommarx.gameenginetest;
+
+import fr.tommarx.gameengine.Game.Game;
+
+public class GameClass extends Game {
+
+	public void create () {
+		init();
+	}
+
+	
+	public void dispose () {
+		stop();
+	}
+}
+
+
+```
+## Screen
+The structure of an empty game screen is the following :
+```java
+package fr.tommarx.gameenginetest;
+
+import fr.tommarx.gameengine.Game.Screen;
+
+public class ScreenTest extends Screen {
+
+    public void show() {
+        //Do initialisation stuff
+    }
+
+}
+```
+And you have to set the game class's screen to ScreenTest :
+```java
+	public void create () {
+		//Very important
+        init();
+        setScreen(new ScreenTest());
+	}
+```
+##Game objects
+Screen contains game objects, wich contains components (ex: sprite renderer, collider, transform, animation...).
+To add a game object to a screen :
+```java
+public class ScreenTest extends Screen {
+
+    GameObject go;
+
+    public void show() {
+        //This game object is added in the screen
+        addGameObject(new Player(new Transform(new Vector2(300,300))));
+        //This one is added in the HUD, it will not follow the game camera
+        addGameObjectInHUD(new LifeCounter(new Transform(new Vector2(10, 10))));
+    }
+
+}
+```
+The player class :
+```java
+package fr.tommarx.gameenginetest;
+
+public class Player extends GameObject {
+
+    BoxBody body;
+
+    public Player(Transform transform) {
+        super(transform);
+        addComponent(new SpriteRenderer(this, new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg")))));
+        body = new BoxBody(this, BodyDef.BodyType.DynamicBody);
+        addComponent(body);
+    }
+
+    protected void update(float delta) {
+
+        Game.debug(3, "Velx : " + body.getBody().getLinearVelocity().x);
+        Game.debug(4, "Vely : " + body.getBody().getLinearVelocity().y);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            body.getBody().setLinearVelocity(new Vector2(200, body.getBody().getLinearVelocity().y));
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            body.getBody().setLinearVelocity(new Vector2(-200, body.getBody().getLinearVelocity().y));
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            body.getBody().setLinearVelocity(new Vector2(body.getBody().getLinearVelocity().x, 200));
+        }
+
+    }
+}
+
+```
+##Debug mode
+A debug mode is available. To enable it, set Game.debugging to true. You can log informations in the left-upper corner with the Game.debug(int line, String message) method.
+Debug mode will show the Box2D bodies (usefull to check the colliders).
+Exemple (in a screen) :
+```java
+        public void update() {
+            //Log DEBUG MODE on first line and FPS on the second
+            Game.debug(1, "DEBUG MODE");
+            Game.debug(2, "FPS : " + Gdx.graphics.getFramesPerSecond());
+            //Enable/disable debug mode when pressing D
+            if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+                Game.debugging = !Game.debugging;
+            }
+        }
+```
+##Layouts
+Layouts can be used to render game objects by priority. Exemple :
+```java
+    //The second argument is the z-index
+    Game.addLayout("Background", 0);
+    Game.addLayout("Middle", 1);
+    Game.addLayout("Foreground", 2);
+    EmptyGameObject background = new EmptyGameObject(new Transform(new Vector2(100, 100)));
+    background.addComponent(new SpriteRenderer(background, new TextureRegion(new Texture(Gdx.files.internal("background.jpg")))));
+    background.setLayout("Background");
+    addGameObject(background);
+```
+##Components
+Components are small pieces of code that will animate game objects.
+Game objects have just one component by default : the transform. Transform contains location, scale and rotation of the game obect.
+To add a component to a game object :
+```java
+        //Creating a game object to location 300,300 with a scale of 0.5 and a rotation of 35
+        EmptyGameObject go = new EmptyGameObject(new Transform(new Vector2(300, 300), new Vector2(0.5f,0.5f), 35));
+        //Add a sprite renderer wich allow to draw images
+        go.addComponent(new SpriteRenderer(go, new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg")))));
+        //Add a box body, wich listen collisions
+        go.addComponent(new BoxBody(go, BodyDef.BodyType.DynamicBody));
+        //Add the game object to the screen
+        addGameObject(go);
+```
+You can also create your own component. You just have to create a class that extends Component and include all component's methods.
+###All components
+####Transform
+The default component. Do nothing but contains location, scale and rotation. If you want to move, rotate or scale your gameobject, you need call Transform functions.
+```java
+public Transform (Vector2 position, Vector2 scale, float rotation) {}
+public Transform (Vector2 position) {}
+public Transform () {}
+```
+####Sprite renderer
+Sprite renderer is the component that display image.
+```java
+public SpriteRenderer (GameObject go, TextureRegion texture) {}
+```
+####Bodies
+Bodies listen for collisions and add the game object to the physics engine (Box2D).
+2 types of bodies : BoxBody and CircleBody
+```java
+public BoxBody(GameObject go, float width, float height, BodyDef.BodyType bodyType) {}
+public CircleBody(GameObject go, float radius, BodyDef.BodyType bodyType) {}
+//Those constructors works only if the gameobject has a sprite renderer
+public BoxBody(GameObject go, BodyDef.BodyType bodyType) {}
+public CircleBody(GameObject go, BodyDef.BodyType bodyType) {}
+```
+####Animation manager
+Animation manager will contain all animations that the game object require. The game object must have a sprite renderer to use the animation manager. Exemple :
+```java
+        //In a game object extending class
+        //Adding a sprite renderer (required for use the animation manager)
+        addComponent(new SpriteRenderer(this, new TextureRegion(new Texture(Gdx.files.internal("player_default.jpg")))));
+        //Adding the component to the game object
+        animManager = new AnimationManager(this);
+        addComponent(animManager);
+        //Adding the 'walk_left' animation to the animation manager, with the id 0
+        //3rd and 4th params are the cols and the rows of the spritesheet, the 5th is the speed and the last one is the looping option
+        animManager.addAnimation(new Animation(this, new Texture(Gdx.files.internal("walk_left.png")), 6, 5, 0.025f, true), 0);
+        //Adding the 'walk_right' animation to the animation manager, with the id 1
+        animManager.addAnimation(new Animation(this, new Texture(Gdx.files.internal("walk_right.png")), 6, 5, 0.025f, true), 1);
+        //Setting the current animation to the walk_left animation
+        animManager.setCurrentAnimation(0);
+```
+####Text
+Text displays text with BitmapFont.
+```java
+public Text(GameObject go, String text, Color color) {}
+public Text(GameObject go, FileHandle fontFile, String text, Color color) {}
+```
+####Box renderer
+A box renderer simply draw a rectangle of a given color :
+```java
+public BoxRenderer(GameObject go, float width, float height, Color color) {}
+```
