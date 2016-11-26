@@ -1,4 +1,4 @@
-package fr.tommarx.gameengine.Util;
+package fr.tommarx.gameengine.Easing;
 
 import com.badlogic.gdx.Gdx;
 

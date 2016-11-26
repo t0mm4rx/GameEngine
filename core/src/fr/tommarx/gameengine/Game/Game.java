@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 
-import fr.tommarx.gameengine.Util.TweenManager;
+import fr.tommarx.gameengine.Easing.TweenManager;
 
 
 public abstract class Game extends com.badlogic.gdx.Game {

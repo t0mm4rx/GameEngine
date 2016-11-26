@@ -1,13 +1,15 @@
-package fr.tommarx.gameengine.Util;
+package fr.tommarx.gameengine.Easing;
 
 import java.util.ArrayList;
 
 public class TweenManager {
 
     ArrayList<Tween> tweens;
+    ArrayList<Tween> deadTweens;
 
     public TweenManager () {
         tweens = new ArrayList<Tween>();
+        deadTweens = new ArrayList<Tween>();
     }
 
     public void goTween(Tween tween) {
@@ -15,20 +17,18 @@ public class TweenManager {
     }
 
     public float getValue(String name) {
-        ArrayList<Tween> tweensByName = new ArrayList<Tween>();
         for (Tween t : tweens) {
             if (t.getName().equals(name)) {
-                tweensByName.add(t);
+                return t.getValue();
             }
         }
-
-        for (Tween t : tweensByName) {
-            if (!t.isFinished()) {
+        for (Tween t : deadTweens) {
+            if (t.getName().equals(name)) {
                 return t.getValue();
             }
         }
 
-        //System.err.println("No active tween found with the name : " + name);
+        System.err.println("No tween found with the name : " + name);
         return 0;
     }
 
@@ -41,6 +41,7 @@ public class TweenManager {
             tween.update();
         }
         tweens.removeAll(toDelete);
+        deadTweens.addAll(toDelete);
     }
 
 }
