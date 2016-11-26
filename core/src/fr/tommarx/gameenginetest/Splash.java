@@ -23,7 +23,7 @@ public class Splash extends Screen {
         ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
         Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f));
         Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f));
-        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0f, 1f, 2f, 0f));
+        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f));
     }
 
     public void update() {

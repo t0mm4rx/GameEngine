@@ -127,6 +127,31 @@ Layouts can be used to render game objects by priority. Exemple :
     background.setLayout("Background");
     addGameObject(background);
 ```
+##Tweening (aka interpolation or easing)
+The game engine has an integrate tweening system. The Game class has a TweenManager, wich can be call to launch tweens :
+```java
+    EmptyGameObject text;
+    public void show() {
+        //Creating a text game object
+        text = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
+        text.addComponent(new Text(text, "Tweening demo !", Color.WHITE));
+        addGameObject(text);
+        //Set the alpha to 0
+        ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
+        //Create a tween named "Alpha", with start value of 0, wich change to 1, in 3 seconds and no delay
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f));
+        //Create a second tween named "Alpha" also, wich starts from 1 and change in direction of -1, in 3 seconds and with 3 seconds of delay
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f));
+        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f));
+    }
+
+    public void update() {
+        //Set the alpha of the text by the "Alpha" tween value
+        ((Text) text.getComponentByClass("Text")).getColor().a = Game.tweenManager.getValue("Alpha");
+        //Set the y of the text by the "Y" tween
+        text.getTransform().getPosition().y = Game.tweenManager.getValue("Y") * Gdx.graphics.getHeight() / 2;
+    }
+```
 ##Components
 Components are small pieces of code that will animate game objects.
 Game objects have just one component by default : the transform. Transform contains location, scale and rotation of the game obect.

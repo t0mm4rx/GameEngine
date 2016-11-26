@@ -15,6 +15,9 @@ public class Tween {
     public static final int CUBE_EASE_OUT = 4;
     public static final int CUBE_EASE_IN = 5;
     public static final int CUBE_EASE_INOUT = 6;
+    public static final int BOUNCE_EASE_OUT = 7;
+    public static final int BOUNCE_EASE_IN = 8;
+    public static final int BOUNCE_EASE_INOUT = 9;
 
     private float duration, time, delay, value, from, change;
     private int easingType;
@@ -77,6 +80,15 @@ public class Tween {
                     break;
                 case 6:
                     value = Cubic.easeInOut(time, from, change, duration);
+                    break;
+                case 7:
+                    value = Bounce.easeOut(time, from, change, duration);
+                    break;
+                case 8:
+                    value = Bounce.easeIn(time, from, change, duration);
+                    break;
+                case 9:
+                    value = Bounce.easeInOut(time, from, change, duration);
                     break;
             }
         }
