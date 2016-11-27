@@ -48,7 +48,7 @@ public class Player extends GameObject {
             body.getBody().setLinearVelocity(new Vector2(body.getBody().getLinearVelocity().x, 200));
         }
 
-        Game.getCurretnScreen().camera.position.set(getTransform().getPosition().x , Gdx.graphics.getHeight() / 2, 0);
+        Game.getCurrentScreen().camera.position.set(getTransform().getPosition().x , Gdx.graphics.getHeight() / 2, 0);
 
     }
 }

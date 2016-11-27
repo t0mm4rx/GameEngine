@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.concurrent.Callable;
+
 import fr.tommarx.gameengine.Components.Text;
 import fr.tommarx.gameengine.Components.Transform;
 import fr.tommarx.gameengine.Game.EmptyGameObject;
 import fr.tommarx.gameengine.Game.Game;
 import fr.tommarx.gameengine.Game.Screen;
 import fr.tommarx.gameengine.Easing.Tween;
+import fr.tommarx.gameengine.Util.WaitAndDo;
 
 public class Splash extends Screen {
 
@@ -20,18 +23,18 @@ public class Splash extends Screen {
         text = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
         text.addComponent(new Text(text, "Tom Marx", Color.WHITE));
         addGameObject(text);
-        //((Text) text.getComponentByClass("Text")).getColor().a = 0f;
-        /*Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
-        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f, false));
-        Game.tweenManager.goTween(new Tween("Y", Tween.CUBE_EASE_INOUT, 0, 1f, 2f, 0f, false));*/
-        Game.tweenManager.goTween(new Tween("Scale", Tween.LINEAR_EASE_NONE, 0, 1f, 2f, 0f, true));
+        ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
+        /*WaitAndDo.WaitAndDo(4, new Callable() {
+            public Object call() throws Exception {
+                System.out.println("Cool !");
+                return null;
+            }
+        });*/
     }
 
     public void update() {
-        /*Game.debug(1, ((Text) text.getComponentByClass("Text")).getColor().a + "");
+        Game.debug(1, ((Text) text.getComponentByClass("Text")).getColor().a + "");
         ((Text) text.getComponentByClass("Text")).getColor().a = Game.tweenManager.getValue("Alpha");
-        text.getTransform().getPosition().y = Game.tweenManager.getValue("Y") * Gdx.graphics.getHeight() / 2;*/
-        Game.debug(1, Game.tweenManager.getValue("Scale") + "");
-        text.getTransform().setScale(new Vector2(Game.tweenManager.getValue("Scale") / 2 + 1, Game.tweenManager.getValue("Scale") / 2 + 1));
     }
 }

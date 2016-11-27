@@ -50,13 +50,6 @@ public class Tween {
         return isFinished;
     }
 
-    public boolean isWaiting() {
-        if (System.currentTimeMillis() - timeB < delay * 1000) {
-            return true;
-        }
-        return false;
-    }
-
     public void update() {
         if (System.currentTimeMillis() - timeB > delay * 1000) {
             time += Gdx.graphics.getDeltaTime();
@@ -95,6 +88,13 @@ public class Tween {
         }
 
         if (time >= duration) {
+
+            if (value > .9f) {
+                value = 1;
+            } else {
+                value = 0;
+            }
+
             if (!repeat) {
                 isFinished = true;
             } else {

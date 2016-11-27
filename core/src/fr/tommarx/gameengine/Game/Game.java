@@ -102,7 +102,7 @@ public abstract class Game extends com.badlogic.gdx.Game {
         super.setScreen(screen);
     }
 
-    public static Screen getCurretnScreen() {
+    public static Screen getCurrentScreen() {
         return screen;
     }
 
