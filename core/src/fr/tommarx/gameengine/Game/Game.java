@@ -25,7 +25,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
 
     private static String[] debugInfos;
     private BitmapFont font;
-    private static ArrayList<String> layouts;
     private static Screen screen;
     public static TweenManager tweenManager;
     private static WaitAndDo waitAndDo;
@@ -38,7 +37,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
         batch = new SpriteBatch();
         HUDbatch = new SpriteBatch();
         font = new BitmapFont();
-        layouts = new ArrayList<String>();
         tweenManager = new TweenManager();
         waitAndDo = new WaitAndDo();
     }
@@ -78,14 +76,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
         } else {
             System.out.println("Error with debug fonction ! Line must be > 0 and <= 10");
         }
-    }
-
-    public static void addLayout(String name, int z) {
-        layouts.add(z, name);
-    }
-
-    public static ArrayList<String> getLayouts() {
-        return layouts;
     }
 
     public void setScreen(Screen screen) {

@@ -6,7 +6,7 @@ public class GameClass extends Game {
 
 	public void create () {
 		init();
-		setScreen(new Splash(this));
+		setScreen(new LightScreen(this));
 	}
 
 	

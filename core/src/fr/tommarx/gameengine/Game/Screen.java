@@ -20,6 +20,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected RayHandler rayHandler;
     public World world;
     private Box2DDebugRenderer colliderRenderer;
+    private static ArrayList<String> layouts;
 
     public Screen (Game game) {
         this.game = game;
@@ -29,6 +30,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         hud = new ArrayList<GameObject>();
         world = new World(new Vector2(0, -98f), true);
         colliderRenderer = new Box2DDebugRenderer();
+        layouts = new ArrayList<String>();
     }
 
     public GameObject getGameObjectByClass(String className) {
@@ -80,7 +82,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         if (rayHandler != null) {
             rayHandler.setCombinedMatrix(camera);
         }
-        for (String layout : Game.getLayouts()) {
+        for (String layout : getLayouts()) {
             for (GameObject go : gameObjects) {
                 if (go.getLayout().equals(layout)) {
                     go.render();
@@ -96,11 +98,9 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }
 
-        //Game.batch.begin();
         if (Game.debugging) {
             colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
         }
-        //Game.batch.end();
 
         if (rayHandler != null) {
             rayHandler.updateAndRender();
@@ -143,6 +143,14 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public void dispose() {
         rayHandler.dispose();
+    }
+
+    public static void addLayout(String name, int z) {
+        layouts.add(z, name);
+    }
+
+    public static ArrayList<String> getLayouts() {
+        return layouts;
     }
 
 }
