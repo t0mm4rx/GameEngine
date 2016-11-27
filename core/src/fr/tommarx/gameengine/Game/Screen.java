@@ -6,12 +6,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import java.util.ArrayList;
 
+import box2dLight.RayHandler;
+
 public abstract class Screen implements com.badlogic.gdx.Screen {
 
     protected ArrayList<GameObject> gameObjects;
     protected ArrayList<GameObject> hud;
     public OrthographicCamera camera;
     protected Game game;
+    protected RayHandler rayHandler;
 
     public Screen (Game game) {
         this.game = game;
@@ -67,7 +70,9 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
-
+        if (rayHandler != null) {
+            rayHandler.setCombinedMatrix(camera);
+        }
         for (String layout : Game.getLayouts()) {
             for (GameObject go : gameObjects) {
                 if (go.getLayout().equals(layout)) {
@@ -84,7 +89,11 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }
 
+        if (rayHandler != null) {
+            rayHandler.updateAndRender();
+        }
         update();
+
 
     }
 
@@ -93,6 +102,11 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             go.renderInHUD();
             go.update();
         }
+    }
+
+    public void activateLights() {
+        rayHandler = new RayHandler(Game.world);
+        rayHandler.setCombinedMatrix(camera);
     }
 
     public abstract void update();
@@ -114,7 +128,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public void dispose() {
-
+        rayHandler.dispose();
     }
 
 }

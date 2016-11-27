@@ -153,7 +153,9 @@ The game engine has an integrate tweening system. The Game class has a TweenMana
     }
 ```
 ##WaitAndDo
-You can use the WaitAndDo.WaitAndDo(float waitFor, Callable action) function to wait an amount of time before doing an action
+You can use the Game.waitAndDo(float waitFor, Callable action) function to wait an amount of time before doing an action
+##Lights
+Screen have an rayHandler object, wich can be activate with the method activateLights(). Next you can use the Box2DLights stuffs.
 ##Components
 Components are small pieces of code that will animate game objects.
 Game objects have just one component by default : the transform. Transform contains location, scale and rotation of the game obect.

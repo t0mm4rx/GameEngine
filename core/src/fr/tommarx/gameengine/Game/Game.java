@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import box2dLight.RayHandler;
 import fr.tommarx.gameengine.Easing.TweenManager;
 import fr.tommarx.gameengine.Util.WaitAndDo;
 

@@ -5,8 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.math.Vector2;
 
+import box2dLight.PointLight;
 import fr.tommarx.gameengine.Components.BoxRenderer;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
 import fr.tommarx.gameengine.Components.Text;
@@ -41,6 +43,8 @@ public class ScreenTest extends Screen {
             EmptyGameObject hudTest = new EmptyGameObject(new Transform(new Vector2(20, 20)));
             hudTest.addComponent(new BoxRenderer(hudTest, 20, 20, Color.BLUE));
             addGameObjectInHUD(hudTest);
+            //rayHandler.setAmbientLight(255,255,255,.2f);
+            //PointLight light = new PointLight(rayHandler, 500, Color.WHITE, 1000, Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
         }
 
         public void update() {
@@ -48,6 +52,11 @@ public class ScreenTest extends Screen {
             Game.debug(2, "FPS : " + Gdx.graphics.getFramesPerSecond());
             if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
                 Game.debugging = !Game.debugging;
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+                activateLights();
+                rayHandler.setAmbientLight(.7f);
+                new PointLight(rayHandler, 500, Color.BLUE, 1000, Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
             }
         }
 

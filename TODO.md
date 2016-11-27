@@ -8,3 +8,4 @@
 - [ ] Layers differents scrolling speed
 - [x] Better fonts
 - [x] Collisions callback
+- [x] Lights :)
