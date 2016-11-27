@@ -152,6 +152,8 @@ The game engine has an integrate tweening system. The Game class has a TweenMana
         text.getTransform().getPosition().y = Game.tweenManager.getValue("Y") * Gdx.graphics.getHeight() / 2;
     }
 ```
+##WaitAndDo
+You can use the WaitAndDo.WaitAndDo(float waitFor, Callable action) function to wait an amount of time before doing an action
 ##Components
 Components are small pieces of code that will animate game objects.
 Game objects have just one component by default : the transform. Transform contains location, scale and rotation of the game obect.

@@ -25,16 +25,10 @@ public class Splash extends Screen {
         addGameObject(text);
         ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
         Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
-        /*WaitAndDo.WaitAndDo(4, new Callable() {
-            public Object call() throws Exception {
-                System.out.println("Cool !");
-                return null;
-            }
-        });*/
+
     }
 
     public void update() {
-        Game.debug(1, ((Text) text.getComponentByClass("Text")).getColor().a + "");
         ((Text) text.getComponentByClass("Text")).getColor().a = Game.tweenManager.getValue("Alpha");
     }
 }
