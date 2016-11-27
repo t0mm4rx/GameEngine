@@ -17,7 +17,11 @@ import fr.tommarx.gameengine.Game.Screen;
 
 public class ScreenTest extends Screen {
 
-        public void show() {
+    public ScreenTest(Game game) {
+        super(game);
+    }
+
+    public void show() {
             Game.addLayout("Background", 0);
             Game.addLayout("Foreground", 1);
 

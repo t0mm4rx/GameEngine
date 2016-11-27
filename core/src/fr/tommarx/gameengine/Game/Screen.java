@@ -11,8 +11,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected ArrayList<GameObject> gameObjects;
     protected ArrayList<GameObject> hud;
     public OrthographicCamera camera;
+    protected Game game;
 
-    public Screen () {
+    public Screen (Game game) {
+        this.game = game;
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         gameObjects = new ArrayList<GameObject>();
@@ -47,6 +49,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }
         return gos;
+    }
+
+    public void setScreen(Screen screen) {
+        game.setScreen(screen);
     }
 
     public void addGameObject(GameObject go) {

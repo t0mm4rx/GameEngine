@@ -18,6 +18,10 @@ public class Splash extends Screen {
 
     EmptyGameObject text;
 
+    public Splash(Game game) {
+        super(game);
+    }
+
     public void show() {
         Game.debugging = true;
         text = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
@@ -25,7 +29,13 @@ public class Splash extends Screen {
         addGameObject(text);
         ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
         Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
-
+        Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f, false));
+        Game.waitAndDo(6, new Callable() {
+            public Object call() throws Exception {
+                setScreen(new ScreenTest(game));
+                return null;
+            }
+        });
     }
 
     public void update() {

@@ -10,8 +10,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import fr.tommarx.gameengine.Easing.TweenManager;
+import fr.tommarx.gameengine.Util.WaitAndDo;
 
 
 public abstract class Game extends com.badlogic.gdx.Game {
@@ -26,6 +28,7 @@ public abstract class Game extends com.badlogic.gdx.Game {
     private static ArrayList<String> layouts;
     private static Screen screen;
     public static TweenManager tweenManager;
+    private static WaitAndDo waitAndDo;
 
     public Game() {}
 
@@ -39,11 +42,13 @@ public abstract class Game extends com.badlogic.gdx.Game {
         font = new BitmapFont();
         layouts = new ArrayList<String>();
         tweenManager = new TweenManager();
+        waitAndDo = new WaitAndDo();
     }
 
     public void render() {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         tweenManager.update();
+        waitAndDo.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -104,6 +109,10 @@ public abstract class Game extends com.badlogic.gdx.Game {
 
     public static Screen getCurrentScreen() {
         return screen;
+    }
+
+    public static void waitAndDo (float time, Callable callable) {
+        waitAndDo.WaitAndDo(time, callable);
     }
 
 }

@@ -1,28 +1,34 @@
 package fr.tommarx.gameengine.Util;
 
+import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 
 public class WaitAndDo {
 
-    public static void WaitAndDo(final float time, final Callable callable) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                double timeB = System.currentTimeMillis();
-                while (true) {
-                    if (System.currentTimeMillis() - timeB >= time * 1000) {
-                        try {
-                            callable.call();
-                            Thread.currentThread().interrupt();
-                            return;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+    private ArrayList<WaitAndDoAction> actions;
+
+    public WaitAndDo () {
+        actions = new ArrayList<WaitAndDoAction>();
+    }
+
+    public void WaitAndDo(float time, Callable callable) {
+        actions.add(new WaitAndDoAction(time, callable));
+    }
+
+    public void update() {
+        ArrayList<WaitAndDoAction> actionsToDelete = new ArrayList<WaitAndDoAction>();
+        for (WaitAndDoAction action : actions) {
+            if (System.currentTimeMillis() - action.timeB >= action.time * 1000) {
+                try {
+                    action.callable.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                actionsToDelete.add(action);
             }
-        });
-        t.start();
+        }
+        actions.removeAll(actionsToDelete);
     }
 
 }
