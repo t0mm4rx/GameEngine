@@ -21,9 +21,8 @@ public abstract class Game extends com.badlogic.gdx.Game {
 
     public static SpriteBatch batch;
     public static SpriteBatch HUDbatch;
-    public static World world;
     public static boolean debugging;
-    private Box2DDebugRenderer colliderRenderer;
+
     private static String[] debugInfos;
     private BitmapFont font;
     private static ArrayList<String> layouts;
@@ -36,10 +35,8 @@ public abstract class Game extends com.badlogic.gdx.Game {
     protected void init() {
         debugging = false;
         debugInfos = new String[10];
-        colliderRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
         HUDbatch = new SpriteBatch();
-        world = new World(new Vector2(0, -98f), true);
         font = new BitmapFont();
         layouts = new ArrayList<String>();
         tweenManager = new TweenManager();
@@ -47,7 +44,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
     }
 
     public void render() {
-        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         tweenManager.update();
         waitAndDo.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -67,13 +63,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
         screen.renderHUD();
         HUDbatch.end();
 
-
-        batch.begin();
-        if (debugging) {
-            colliderRenderer.render(world, batch.getProjectionMatrix().cpy());
-        }
-        batch.end();
-
         debugInfos = new String[10];
 
     }
@@ -89,10 +78,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
         } else {
             System.out.println("Error with debug fonction ! Line must be > 0 and <= 10");
         }
-    }
-
-    public static void setGravity(Vector2 gravity) {
-        world.setGravity(gravity);
     }
 
     public static void addLayout(String name, int z) {

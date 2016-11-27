@@ -21,7 +21,7 @@ public class CircleBody extends Component{
         bodyDef.type = bodyType;
         bodyDef.position.set(go.getTransform().getPosition().x, go.getTransform().getPosition().y);
         bodyDef.angle = Math.DegreeToRadian(go.getTransform().getRotation());
-        body = Game.world.createBody(bodyDef);
+        body = Game.getCurrentScreen().world.createBody(bodyDef);
         CircleShape shape = new CircleShape();
         if (go.getSpriteRenderer() != null) {
             shape.setRadius(go.getSpriteRenderer().getTexture().getWidth() / 2 * go.getTransform().getScale().x);
@@ -45,7 +45,7 @@ public class CircleBody extends Component{
         bodyDef.type = bodyType;
         bodyDef.position.set(go.getTransform().getPosition().x, go.getTransform().getPosition().y);
         bodyDef.angle = Math.DegreeToRadian(go.getTransform().getRotation());
-        body = Game.world.createBody(bodyDef);
+        body = Game.getCurrentScreen().world.createBody(bodyDef);
         CircleShape shape = new CircleShape();
         shape.setRadius(radius);
         FixtureDef fixtureDef = new FixtureDef();

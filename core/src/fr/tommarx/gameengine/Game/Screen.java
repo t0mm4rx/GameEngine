@@ -3,6 +3,9 @@ package fr.tommarx.gameengine.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 
@@ -15,6 +18,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public OrthographicCamera camera;
     protected Game game;
     protected RayHandler rayHandler;
+    public World world;
+    private Box2DDebugRenderer colliderRenderer;
 
     public Screen (Game game) {
         this.game = game;
@@ -22,6 +27,8 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         gameObjects = new ArrayList<GameObject>();
         hud = new ArrayList<GameObject>();
+        world = new World(new Vector2(0, -98f), true);
+        colliderRenderer = new Box2DDebugRenderer();
     }
 
     public GameObject getGameObjectByClass(String className) {
@@ -67,7 +74,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public void render (float delta) {
-
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
         if (rayHandler != null) {
@@ -89,10 +96,17 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }
 
+        //Game.batch.begin();
+        if (Game.debugging) {
+            colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
+        }
+        //Game.batch.end();
+
         if (rayHandler != null) {
             rayHandler.updateAndRender();
         }
         update();
+
 
 
     }
@@ -105,7 +119,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public void activateLights() {
-        rayHandler = new RayHandler(Game.world);
+        rayHandler = new RayHandler(world);
         rayHandler.setCombinedMatrix(camera);
     }
 

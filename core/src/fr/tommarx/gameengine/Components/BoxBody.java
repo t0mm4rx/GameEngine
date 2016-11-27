@@ -23,7 +23,7 @@ public class BoxBody extends Component{
         bodyDef.type = bodyType;
         bodyDef.position.set(go.getTransform().getPosition().x, go.getTransform().getPosition().y);
         bodyDef.angle = Math.DegreeToRadian(go.getTransform().getRotation());
-        body = Game.world.createBody(bodyDef);
+        body = Game.getCurrentScreen().world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
         if (go.getSpriteRenderer() != null) {
             shape.setAsBox(
@@ -51,7 +51,7 @@ public class BoxBody extends Component{
         bodyDef.type = bodyType;
         bodyDef.position.set(go.getTransform().getPosition().x, go.getTransform().getPosition().y);
         bodyDef.angle = Math.DegreeToRadian(go.getTransform().getRotation());
-        body = Game.world.createBody(bodyDef);
+        body = Game.getCurrentScreen().world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2, height / 2);
         FixtureDef fixtureDef = new FixtureDef();
