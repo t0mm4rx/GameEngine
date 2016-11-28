@@ -158,6 +158,7 @@ You can use the Game.waitAndDo(float waitFor, Callable action) function to wait 
 Screen have an rayHandler object, wich can be activate with the method isLightsEnabled(boolean b). Next you can use the Box2DLights stuffs.
 To change the ambiance light :
 ```java
+    isLightsEnabled(true);
     rayHandler.setAmbientLight(1f, 1f, 1f, .03f);
 ```
 ##Components
@@ -233,4 +234,6 @@ public PointLight(GameObject go, int power, int length, Color color, RayHandler 
 ```
 ####Cone light
 A light that diffuse in a cone shape (usefull for lamp) :
+```java
 public ConeLight(GameObject go, int power, int length, Color color, RayHandler rayHandler, float angle) {}
+```

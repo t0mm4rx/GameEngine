@@ -11,8 +11,10 @@ import fr.tommarx.gameengine.Components.ConeLight;
 import fr.tommarx.gameengine.Components.PointLight;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
 import fr.tommarx.gameengine.Components.Transform;
+import fr.tommarx.gameengine.Easing.Tween;
 import fr.tommarx.gameengine.Game.EmptyGameObject;
 import fr.tommarx.gameengine.Game.Game;
+import fr.tommarx.gameengine.Game.GameObject;
 import fr.tommarx.gameengine.Game.Screen;
 
 
@@ -41,11 +43,13 @@ public class LightScreen extends Screen {
         EmptyGameObject sun;
         sun = new EmptyGameObject(new Transform(new Vector2(0, 0), new Vector2(.4f, .4f), -45));
         sun.addComponent(new ConeLight(sun, 1000, 600, Color.ORANGE, rayHandler, 30));
+        sun.setTag("Light");
         addGameObject(sun);
 
         EmptyGameObject sun2;
         sun2 = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth(), 0), new Vector2(.4f, .4f), 45));
         sun2.addComponent(new ConeLight(sun2, 1000, 600, Color.WHITE, rayHandler, 30));
+        sun2.setTag("Light");
         addGameObject(sun2);
 
         player = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(.2f, .2f), 0));
@@ -57,6 +61,8 @@ public class LightScreen extends Screen {
         wall.addComponent(new SpriteRenderer(wall, Gdx.files.internal("Badlogic.jpg")));
         wall.addComponent(new BoxBody(wall, 256, 256, BodyDef.BodyType.StaticBody));
         addGameObject(wall);
+
+        Game.tweenManager.goTween(new Tween("Angle", Tween.CUBE_EASE_INOUT, 0f, 1f, 3f, 0f, true));
 
     }
 
@@ -96,6 +102,10 @@ public class LightScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             Game.debugging = !Game.debugging;
+        }
+
+        for (GameObject light : getGameObjectsByTag("Light")) {
+            ((ConeLight) light.getComponentByClass("ConeLight")).setAngle(Game.tweenManager.getValue("Angle") * 30);
         }
     }
 
