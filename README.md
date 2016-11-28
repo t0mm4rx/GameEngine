@@ -155,7 +155,11 @@ The game engine has an integrate tweening system. The Game class has a TweenMana
 ##WaitAndDo
 You can use the Game.waitAndDo(float waitFor, Callable action) function to wait an amount of time before doing an action
 ##Lights
-Screen have an rayHandler object, wich can be activate with the method activateLights(). Next you can use the Box2DLights stuffs.
+Screen have an rayHandler object, wich can be activate with the method isLightsEnabled(boolean b). Next you can use the Box2DLights stuffs.
+To change the ambiance light :
+```java
+    rayHandler.setAmbientLight(1f, 1f, 1f, .03f);
+```
 ##Components
 Components are small pieces of code that will animate game objects.
 Game objects have just one component by default : the transform. Transform contains location, scale and rotation of the game obect.
@@ -222,3 +226,11 @@ A box renderer simply draw a rectangle of a given color :
 ```java
 public BoxRenderer(GameObject go, float width, float height, Color color) {}
 ```
+####Point light
+A light that difuses all around it.
+```java
+public PointLight(GameObject go, int power, int length, Color color, RayHandler rayHandler) {}
+```
+####Cone light
+A light that diffuse in a cone shape (usefull for lamp) :
+public ConeLight(GameObject go, int power, int length, Color color, RayHandler rayHandler, float angle) {}

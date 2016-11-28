@@ -1,7 +1,7 @@
 #TODO
 - [x] Add tween support
 - [x] WaitAndDo
-- [x] Make a responsive system for sprite renderer
+- [x] Make a responsive system for sprite
 - [ ] UI screens
 - [ ] UI components
 - [ ] Sound management

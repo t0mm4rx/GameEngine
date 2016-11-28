@@ -24,8 +24,8 @@ public class ScreenTest extends Screen {
     }
 
     public void show() {
-            Game.addLayout("Background", 0);
-            Game.addLayout("Foreground", 1);
+            addLayout("Background", 0);
+            addLayout("Foreground", 1);
 
             addGameObject(new Player(new Transform(new Vector2(300,300), new Vector2(0.2f, 0.2f), 0)));
             addGameObject(new Wall(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, 50)), 500, 10));
@@ -54,7 +54,7 @@ public class ScreenTest extends Screen {
                 Game.debugging = !Game.debugging;
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-                activateLights();
+                //activateLights();
                 rayHandler.setAmbientLight(.7f);
                 new PointLight(rayHandler, 500, Color.BLUE, 1000, Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
             }

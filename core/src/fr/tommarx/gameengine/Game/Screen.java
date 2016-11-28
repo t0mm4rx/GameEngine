@@ -21,6 +21,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public World world;
     private Box2DDebugRenderer colliderRenderer;
     private static ArrayList<String> layouts;
+    private boolean lightsEnabled;
 
     public Screen (Game game) {
         this.game = game;
@@ -31,6 +32,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         world = new World(new Vector2(0, -98f), true);
         colliderRenderer = new Box2DDebugRenderer();
         layouts = new ArrayList<String>();
+        rayHandler = new RayHandler(world);
+        rayHandler.setCombinedMatrix(camera);
+        rayHandler.setBlur(true);
+        lightsEnabled = false;
     }
 
     public GameObject getGameObjectByClass(String className) {
@@ -79,9 +84,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
-        if (rayHandler != null) {
-            rayHandler.setCombinedMatrix(camera);
-        }
+
         for (String layout : getLayouts()) {
             for (GameObject go : gameObjects) {
                 if (go.getLayout().equals(layout)) {
@@ -102,12 +105,14 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
         }
 
-        if (rayHandler != null) {
+        if (lightsEnabled) {
+            Game.batch.end();
+            rayHandler.setCombinedMatrix(camera);
             rayHandler.updateAndRender();
+            Game.batch.begin();
         }
+
         update();
-
-
 
     }
 
@@ -116,11 +121,6 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             go.renderInHUD();
             go.update();
         }
-    }
-
-    public void activateLights() {
-        rayHandler = new RayHandler(world);
-        rayHandler.setCombinedMatrix(camera);
     }
 
     public abstract void update();
@@ -145,12 +145,16 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         rayHandler.dispose();
     }
 
-    public static void addLayout(String name, int z) {
+    public void addLayout(String name, int z) {
         layouts.add(z, name);
     }
 
-    public static ArrayList<String> getLayouts() {
+    public ArrayList<String> getLayouts() {
         return layouts;
+    }
+
+    public void isLightsEnabled(boolean b) {
+        lightsEnabled = b;
     }
 
 }
