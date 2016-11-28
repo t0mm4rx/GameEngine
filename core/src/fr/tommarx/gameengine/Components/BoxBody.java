@@ -53,7 +53,7 @@ public class BoxBody extends Component{
         bodyDef.angle = Math.DegreeToRadian(go.getTransform().getRotation());
         body = Game.getCurrentScreen().world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
+        shape.setAsBox(width / 2 * go.getTransform().getScale().x, height / 2* go.getTransform().getScale().y);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;

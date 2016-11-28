@@ -101,15 +101,15 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }
 
-        if (Game.debugging) {
-            colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
-        }
-
         if (lightsEnabled) {
             Game.batch.end();
             rayHandler.setCombinedMatrix(camera);
             rayHandler.updateAndRender();
             Game.batch.begin();
+        }
+
+        if (Game.debugging) {
+            colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
         }
 
         update();

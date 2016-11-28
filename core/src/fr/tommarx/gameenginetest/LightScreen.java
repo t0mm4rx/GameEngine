@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 
+import fr.tommarx.gameengine.Components.BoxBody;
 import fr.tommarx.gameengine.Components.ConeLight;
 import fr.tommarx.gameengine.Components.PointLight;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
@@ -15,14 +17,18 @@ import fr.tommarx.gameengine.Game.Screen;
 
 
 public class LightScreen extends Screen {
-    EmptyGameObject sun;
+
+    EmptyGameObject player;
+
     public LightScreen(Game game) {
         super(game);
     }
 
     public void show() {
         isLightsEnabled(true);
-        rayHandler.setAmbientLight(1f, 1f, 1f, .003f);
+        rayHandler.setAmbientLight(1f, 1f, 1f, .01f);
+
+        world.setGravity(new Vector2(0, 0));
 
         addLayout("Background", 0);
 
@@ -32,24 +38,64 @@ public class LightScreen extends Screen {
         background.setLayout("Background");
         addGameObject(background);
 
-        /*EmptyGameObject torch;
-        torch = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(.4f, .4f), 0));
-        torch.addComponent(new PointLight(torch, 1000, 100, Color.ORANGE, rayHandler));
-        torch.addComponent(new SpriteRenderer(torch, Gdx.files.internal("torch.gif")));
-        addGameObject(torch);*/
-
-        sun = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(.4f, .4f), 0));
-        sun.addComponent(new ConeLight(sun, 1000, 400, Color.ORANGE, rayHandler, 50));
+        EmptyGameObject sun;
+        sun = new EmptyGameObject(new Transform(new Vector2(0, 0), new Vector2(.4f, .4f), -45));
+        sun.addComponent(new ConeLight(sun, 1000, 600, Color.ORANGE, rayHandler, 30));
         addGameObject(sun);
+
+        EmptyGameObject sun2;
+        sun2 = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth(), 0), new Vector2(.4f, .4f), 45));
+        sun2.addComponent(new ConeLight(sun2, 1000, 600, Color.WHITE, rayHandler, 30));
+        addGameObject(sun2);
+
+        player = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(.2f, .2f), 0));
+        player.addComponent(new SpriteRenderer(player, Gdx.files.internal("Badlogic.jpg")));
+        player.addComponent(new BoxBody(player, 256, 256, BodyDef.BodyType.DynamicBody));
+        addGameObject(player);
+
+        EmptyGameObject wall = new EmptyGameObject(new Transform(new Vector2(300, 300), new Vector2(.3f, .3f), 0));
+        wall.addComponent(new SpriteRenderer(wall, Gdx.files.internal("Badlogic.jpg")));
+        wall.addComponent(new BoxBody(wall, 256, 256, BodyDef.BodyType.StaticBody));
+        addGameObject(wall);
 
     }
 
     public void update() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            sun.getTransform().setRotation(sun.getTransform().getRotation() - 2);
+            if (((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().x > -200) {
+                ((BoxBody)player.getComponentByClass("BoxBody")).getBody().setLinearVelocity(new Vector2(
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().x - 10f,
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().y
+                ));
+            }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            sun.getTransform().setRotation(sun.getTransform().getRotation() + 2);
+            if (((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().x < 200) {
+                ((BoxBody)player.getComponentByClass("BoxBody")).getBody().setLinearVelocity(new Vector2(
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().x + 10f,
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().y
+                ));
+            }
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if (((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().y < 200) {
+                ((BoxBody)player.getComponentByClass("BoxBody")).getBody().setLinearVelocity(new Vector2(
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().x,
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().y + 10f
+                ));
+            }
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            if (((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().y > -200) {
+                ((BoxBody)player.getComponentByClass("BoxBody")).getBody().setLinearVelocity(new Vector2(
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().x,
+                        ((BoxBody)player.getComponentByClass("BoxBody")).getBody().getLinearVelocity().y - 10f
+                ));
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            Game.debugging = !Game.debugging;
         }
     }
 
