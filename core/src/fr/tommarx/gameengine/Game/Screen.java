@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 
 import box2dLight.RayHandler;
+import fr.tommarx.gameengine.UI.UICanvas;
 
 public abstract class Screen implements com.badlogic.gdx.Screen {
 
@@ -21,6 +22,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public World world;
     private Box2DDebugRenderer colliderRenderer;
     private static ArrayList<String> layouts;
+    private ArrayList<UICanvas> uiCanvases;
     private boolean lightsEnabled;
 
     public Screen (Game game) {
@@ -28,6 +30,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         gameObjects = new ArrayList<GameObject>();
+        uiCanvases = new ArrayList<UICanvas>();
         hud = new ArrayList<GameObject>();
         world = new World(new Vector2(0, -98f), true);
         colliderRenderer = new Box2DDebugRenderer();
@@ -112,6 +115,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
         }
 
+        for (UICanvas canvas : uiCanvases) {
+            canvas.render();
+        }
+
         update();
 
     }
@@ -143,6 +150,9 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public void dispose() {
         rayHandler.dispose();
+        for (UICanvas canvas : uiCanvases) {
+            canvas.dispose();
+        }
     }
 
     public void addLayout(String name, int z) {
@@ -155,6 +165,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public void isLightsEnabled(boolean b) {
         lightsEnabled = b;
+    }
+
+    public void addUICanvas(UICanvas canvas) {
+        uiCanvases.add(canvas);
     }
 
 }

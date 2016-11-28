@@ -26,6 +26,10 @@ public class PointLight extends Component {
 
     }
 
+    public box2dLight.PointLight getLight() {
+        return light;
+    }
+
     public void render() {
 
     }

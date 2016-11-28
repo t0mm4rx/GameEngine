@@ -28,6 +28,10 @@ public class ConeLight extends Component{
 
     }
 
+    public box2dLight.ConeLight getLight() {
+        return light;
+    }
+
     public void setAngle(float angle) {
         light.setConeDegree(angle);
     }

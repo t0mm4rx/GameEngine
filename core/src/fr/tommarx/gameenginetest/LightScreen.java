@@ -5,10 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import fr.tommarx.gameengine.Components.BoxBody;
 import fr.tommarx.gameengine.Components.ConeLight;
-import fr.tommarx.gameengine.Components.PointLight;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
 import fr.tommarx.gameengine.Components.Transform;
 import fr.tommarx.gameengine.Easing.Tween;
@@ -16,11 +17,13 @@ import fr.tommarx.gameengine.Game.EmptyGameObject;
 import fr.tommarx.gameengine.Game.Game;
 import fr.tommarx.gameengine.Game.GameObject;
 import fr.tommarx.gameengine.Game.Screen;
+import fr.tommarx.gameengine.UI.UICanvas;
 
 
 public class LightScreen extends Screen {
 
     EmptyGameObject player;
+    UICanvas ui;
 
     public LightScreen(Game game) {
         super(game);
@@ -53,8 +56,8 @@ public class LightScreen extends Screen {
         addGameObject(sun2);
 
         player = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(.2f, .2f), 0));
-        player.addComponent(new SpriteRenderer(player, Gdx.files.internal("Badlogic.jpg")));
         player.addComponent(new BoxBody(player, 256, 256, BodyDef.BodyType.DynamicBody));
+        player.addComponent(new SpriteRenderer(player, Gdx.files.internal("Badlogic.jpg")));
         addGameObject(player);
 
         EmptyGameObject wall = new EmptyGameObject(new Transform(new Vector2(300, 300), new Vector2(.3f, .3f), 0));
@@ -62,7 +65,12 @@ public class LightScreen extends Screen {
         wall.addComponent(new BoxBody(wall, 256, 256, BodyDef.BodyType.StaticBody));
         addGameObject(wall);
 
-        Game.tweenManager.goTween(new Tween("Angle", Tween.CUBE_EASE_INOUT, 0f, 1f, 3f, 0f, true));
+        ui = new UICanvas(0, Gdx.graphics.getHeight() - 100, 100, 100, Gdx.files.internal("testskin/uiskin.json"));
+        ui.getTable().addActor(new TextButton("Yes !", ui.getSkin()));
+        ui.getTable().row();
+        ui.getTable().addActor(new TextButton("Yes !", ui.getSkin()));
+        ui.getTable().row();
+        addUICanvas(ui);
 
     }
 
@@ -104,9 +112,6 @@ public class LightScreen extends Screen {
             Game.debugging = !Game.debugging;
         }
 
-        for (GameObject light : getGameObjectsByTag("Light")) {
-            ((ConeLight) light.getComponentByClass("ConeLight")).setAngle(Game.tweenManager.getValue("Angle") * 30);
-        }
     }
 
 }
