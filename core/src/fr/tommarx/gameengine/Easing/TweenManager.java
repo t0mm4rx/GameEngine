@@ -28,7 +28,7 @@ public class TweenManager {
             }
         }
 
-        System.err.println("No tween found with the name : " + name);
+        //System.err.println("No tween found with the name : " + name);
         return 0;
     }
 
