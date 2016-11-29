@@ -57,9 +57,9 @@ public class ScreenTest extends Screen {
 
     public void show() {
         //This game object is added in the screen
-        addGameObject(new Player(new Transform(new Vector2(300,300))));
+        add(new Player(new Transform(new Vector2(300,300))));
         //This one is added in the HUD, it will not follow the game camera
-        addGameObjectInHUD(new LifeCounter(new Transform(new Vector2(10, 10))));
+        addInHUD(new LifeCounter(new Transform(new Vector2(10, 10))));
     }
 
 }
@@ -118,14 +118,13 @@ Exemple (in a screen) :
 ##Layouts
 Layouts can be used to render game objects by priority. Exemple :
 ```java
-    //The second argument is the z-index
-    Game.addLayout("Background", 0);
-    Game.addLayout("Middle", 1);
-    Game.addLayout("Foreground", 2);
     EmptyGameObject background = new EmptyGameObject(new Transform(new Vector2(100, 100)));
     background.addComponent(new SpriteRenderer(background, new TextureRegion(new Texture(Gdx.files.internal("background.jpg")))));
-    background.setLayout("Background");
-    addGameObject(background);
+    background.setLayout(0);
+    add(background);
+    EmptyGameObject player = ...;
+    player.setLayer(1);
+    //Player will be rendered after the background so background will be behind.
 ```
 ##Tweening (aka interpolation or easing)
 The game engine has an integrate tweening system. The Game class has a TweenManager, wich can be call to launch tweens :
@@ -135,7 +134,7 @@ The game engine has an integrate tweening system. The Game class has a TweenMana
         //Creating a text game object
         text = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
         text.addComponent(new Text(text, "Tweening demo !", Color.WHITE));
-        addGameObject(text);
+        add(text);
         //Set the alpha to 0
         ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
         //Create a tween named "Alpha", with start value of 0, wich change to 1, in 3 seconds, no delay and doesn't repeat
@@ -173,7 +172,7 @@ To add a component to a game object :
         //Add a box body, wich listen collisions
         go.addComponent(new BoxBody(go, BodyDef.BodyType.DynamicBody));
         //Add the game object to the screen
-        addGameObject(go);
+        add(go);
 ```
 You can also create your own component. You just have to create a class that extends Component and include all component's methods.
 ###All components
