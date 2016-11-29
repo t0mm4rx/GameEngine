@@ -1,12 +1,9 @@
 package fr.tommarx.gameenginetest;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -21,7 +18,6 @@ import fr.tommarx.gameengine.Game.EmptyGameObject;
 import fr.tommarx.gameengine.Game.Game;
 import fr.tommarx.gameengine.Game.Screen;
 import fr.tommarx.gameengine.UI.UICanvas;
-import fr.tommarx.gameengine.Util.WaitAndDo;
 
 public class MenuScreen extends Screen{
 

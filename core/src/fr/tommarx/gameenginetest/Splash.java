@@ -8,11 +8,10 @@ import java.util.concurrent.Callable;
 
 import fr.tommarx.gameengine.Components.Text;
 import fr.tommarx.gameengine.Components.Transform;
+import fr.tommarx.gameengine.Easing.Tween;
 import fr.tommarx.gameengine.Game.EmptyGameObject;
 import fr.tommarx.gameengine.Game.Game;
 import fr.tommarx.gameengine.Game.Screen;
-import fr.tommarx.gameengine.Easing.Tween;
-import fr.tommarx.gameengine.Util.WaitAndDo;
 
 public class Splash extends Screen {
 

@@ -2,10 +2,6 @@ package fr.tommarx.gameengine.Easing;
 
 import com.badlogic.gdx.Gdx;
 
-import fr.tommarx.gameengine.Easing.Cubic;
-import fr.tommarx.gameengine.Easing.Linear;
-import fr.tommarx.gameengine.Game.Game;
-
 public class Tween {
 
     public static final int LINEAR_EASE_OUT = 0;
