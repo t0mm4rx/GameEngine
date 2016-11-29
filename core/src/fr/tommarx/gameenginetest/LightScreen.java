@@ -65,13 +65,6 @@ public class LightScreen extends Screen {
         wall.addComponent(new BoxBody(wall, 256, 256, BodyDef.BodyType.StaticBody));
         addGameObject(wall);
 
-        ui = new UICanvas(0, Gdx.graphics.getHeight() - 100, 100, 100, Gdx.files.internal("testskin/uiskin.json"));
-        ui.getTable().addActor(new TextButton("Yes !", ui.getSkin()));
-        ui.getTable().row();
-        ui.getTable().addActor(new TextButton("Yes !", ui.getSkin()));
-        ui.getTable().row();
-        addUICanvas(ui);
-
     }
 
     public void update() {
