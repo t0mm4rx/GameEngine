@@ -51,6 +51,14 @@ public class BoxRenderer extends Component{
         Game.HUDbatch.begin();
     }
 
+    public void setColor (Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
     public void update() {
 
     }
