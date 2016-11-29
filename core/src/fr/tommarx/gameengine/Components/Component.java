@@ -1,8 +1,9 @@
 package fr.tommarx.gameengine.Components;
 
+import fr.tommarx.gameengine.Game.Drawable;
 import fr.tommarx.gameengine.Game.GameObject;
 
-public abstract class Component {
+public abstract class Component extends Drawable {
 
    private GameObject go;
 
@@ -10,8 +11,6 @@ public abstract class Component {
       return go;
    }
 
-   public abstract void render();
-   public abstract void renderInHUD();
    public abstract void update();
 
 }

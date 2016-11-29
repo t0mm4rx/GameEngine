@@ -25,7 +25,6 @@ public class ConeLight extends Component{
         lastX = go.getTransform().getPosition().x;
         lastY = go.getTransform().getPosition().y;
         lastAngle = go.getTransform().getRotation();
-
     }
 
     public box2dLight.ConeLight getLight() {

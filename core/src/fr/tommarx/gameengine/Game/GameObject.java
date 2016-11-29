@@ -9,19 +9,19 @@ import fr.tommarx.gameengine.Components.Component;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
 import fr.tommarx.gameengine.Components.Transform;
 
-public abstract class GameObject {
+public abstract class GameObject extends Drawable {
 
     private String id, tag;
     private ArrayList<Component> components;
-    private String layout;
 
     public GameObject(Transform transform) {
+
+        isGameObject = true;
 
         //Generate UUID
         id = UUID.randomUUID().toString();
 
         tag = "";
-        layout = "";
         components = new ArrayList<Component>();
 
         //Adding a transform component
@@ -90,14 +90,6 @@ public abstract class GameObject {
             comp.update();
         }
         update(Gdx.graphics.getDeltaTime());
-    }
-
-    public void setLayout(String layout) {
-        this.layout = layout;
-    }
-
-    public String getLayout() {
-        return layout;
     }
 
     protected abstract void update(float delta);

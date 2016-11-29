@@ -24,25 +24,23 @@ public class ScreenTest extends Screen {
     }
 
     public void show() {
-            addLayout("Background", 0);
-            addLayout("Foreground", 1);
 
-            addGameObject(new Player(new Transform(new Vector2(300,300), new Vector2(0.2f, 0.2f), 0)));
-            addGameObject(new Wall(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, 50)), 500, 10));
+            add(new Player(new Transform(new Vector2(300,300), new Vector2(0.2f, 0.2f), 0)));
+            add(new Wall(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, 50)), 500, 10));
             EmptyGameObject go = new EmptyGameObject(new Transform(new Vector2(300, 300), new Vector2(2, 2), 0));
             go.addComponent(new Text(go, Gdx.files.internal("font.ttf"), 40, "Test !!", Color.WHITE));
-            go.setLayout("Foreground");
-            addGameObject(go);
+            go.setLayout(1);
+            add(go);
             EmptyGameObject background = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
             background.addComponent(new SpriteRenderer(background, Gdx.files.internal("background.jpg")));
             background.getSpriteRenderer().scaleWidth(100);
-            background.setLayout("Background");
+            background.setLayout(0);
             //background.getSpriteRenderer().flip(true, true);
-            addGameObject(background);
+            add(background);
 
             EmptyGameObject hudTest = new EmptyGameObject(new Transform(new Vector2(20, 20)));
             hudTest.addComponent(new BoxRenderer(hudTest, 20, 20, Color.BLUE));
-            addGameObjectInHUD(hudTest);
+            addInHUD(hudTest);
             //rayHandler.setAmbientLight(255,255,255,.2f);
             //PointLight light = new PointLight(rayHandler, 500, Color.WHITE, 1000, Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
         }

@@ -8,7 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class UICanvas {
+import fr.tommarx.gameengine.Game.Drawable;
+import fr.tommarx.gameengine.Game.Game;
+
+public class UICanvas extends Drawable{
 
     private Stage stage;
     private Table table;
@@ -22,7 +25,7 @@ public class UICanvas {
         table.setFillParent(true);
         stage.addActor(table);
 
-        table.setDebug(true);
+        table.setDebug(Game.debugging);
 
         skin = new Skin();
 
@@ -57,9 +60,16 @@ public class UICanvas {
     }
 
     public void render() {
+        table.setDebug(Game.debugging);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
+
+    public void renderInHUD() {
+
+    }
+
+    public void update() {}
 
     public void dispose() {
         stage.dispose();

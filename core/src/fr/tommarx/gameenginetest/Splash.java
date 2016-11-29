@@ -26,7 +26,7 @@ public class Splash extends Screen {
         Game.debugging = true;
         text = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
         text.addComponent(new Text(text, "Tom Marx", Color.WHITE));
-        addGameObject(text);
+        add(text);
         ((Text) text.getComponentByClass("Text")).getColor().a = 0f;
         Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 0f, 1f, 3f, 0f, false));
         Game.tweenManager.goTween(new Tween("Alpha", Tween.LINEAR_EASE_NONE, 1f, -1f, 3f, 3f, false));

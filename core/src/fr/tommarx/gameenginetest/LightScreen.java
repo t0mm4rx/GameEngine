@@ -35,35 +35,41 @@ public class LightScreen extends Screen {
 
         world.setGravity(new Vector2(0, 0));
 
-        addLayout("Background", 0);
 
         EmptyGameObject background = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
         background.addComponent(new SpriteRenderer(background, Gdx.files.internal("background2.png")));
         background.getSpriteRenderer().scaleHeight(100);
-        background.setLayout("Background");
-        addGameObject(background);
+        background.setLayout(0);
+        add(background);
 
         EmptyGameObject sun;
         sun = new EmptyGameObject(new Transform(new Vector2(0, 0), new Vector2(.4f, .4f), -45));
         sun.addComponent(new ConeLight(sun, 1000, 600, Color.ORANGE, rayHandler, 30));
         sun.setTag("Light");
-        addGameObject(sun);
+        sun.setLayout(1);
+        add(sun);
 
         EmptyGameObject sun2;
         sun2 = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth(), 0), new Vector2(.4f, .4f), 45));
         sun2.addComponent(new ConeLight(sun2, 1000, 600, Color.WHITE, rayHandler, 30));
         sun2.setTag("Light");
-        addGameObject(sun2);
+        sun2.setLayout(1);
+        add(sun2);
 
         player = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2), new Vector2(.2f, .2f), 0));
         player.addComponent(new BoxBody(player, 256, 256, BodyDef.BodyType.DynamicBody));
         player.addComponent(new SpriteRenderer(player, Gdx.files.internal("Badlogic.jpg")));
-        addGameObject(player);
+        player.setLayout(2);
+        add(player);
 
         EmptyGameObject wall = new EmptyGameObject(new Transform(new Vector2(300, 300), new Vector2(.3f, .3f), 0));
         wall.addComponent(new SpriteRenderer(wall, Gdx.files.internal("Badlogic.jpg")));
         wall.addComponent(new BoxBody(wall, 256, 256, BodyDef.BodyType.StaticBody));
-        addGameObject(wall);
+        wall.setLayout(0);
+        add(wall);
+
+        /*UICanvas ui = new UICanvas(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, Gdx.files.internal("testskin/uiskin.json"));
+        add(ui);*/
 
     }
 

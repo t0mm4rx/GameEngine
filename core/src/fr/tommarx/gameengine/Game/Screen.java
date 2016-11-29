@@ -8,33 +8,34 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import box2dLight.RayHandler;
 import fr.tommarx.gameengine.UI.UICanvas;
 
 public abstract class Screen implements com.badlogic.gdx.Screen {
 
-    protected ArrayList<GameObject> gameObjects;
-    protected ArrayList<GameObject> hud;
+    //protected ArrayList<GameObject> gameObjects;
+    protected ArrayList<Drawable> drawables;
+    protected ArrayList<Drawable> drawablesHUD;
+    //protected ArrayList<GameObject> hud;
     public OrthographicCamera camera;
     protected Game game;
     protected RayHandler rayHandler;
     public World world;
     private Box2DDebugRenderer colliderRenderer;
-    private static ArrayList<String> layouts;
-    private ArrayList<UICanvas> uiCanvases;
     private boolean lightsEnabled;
 
     public Screen (Game game) {
         this.game = game;
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
-        gameObjects = new ArrayList<GameObject>();
-        uiCanvases = new ArrayList<UICanvas>();
-        hud = new ArrayList<GameObject>();
+        //gameObjects = new ArrayList<GameObject>();
+        drawables = new ArrayList<Drawable>();
+        drawablesHUD = new ArrayList<Drawable>();
+        //hud = new ArrayList<GameObject>();
         world = new World(new Vector2(0, -98f), true);
         colliderRenderer = new Box2DDebugRenderer();
-        layouts = new ArrayList<String>();
         rayHandler = new RayHandler(world);
         rayHandler.setCombinedMatrix(camera);
         rayHandler.setBlur(true);
@@ -42,9 +43,25 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public GameObject getGameObjectByClass(String className) {
-        for (GameObject go : gameObjects) {
-            if (go.getClass().getSimpleName().equals(className)) {
-                return go;
+
+        for (Drawable go : drawables) {
+            if (go.isGameObject()) {
+                if (go.getClass().getSimpleName().equals(className)) {
+                    return (GameObject) go;
+                }
+            }
+        }
+        System.err.println("Warning : trying to get an non-existing component.");
+        return null;
+    }
+
+    public GameObject getGameObjectByClassInHUD(String className) {
+
+        for (Drawable go : drawablesHUD) {
+            if (go.isGameObject()) {
+                if (go.getClass().getSimpleName().equals(className)) {
+                    return (GameObject) go;
+                }
             }
         }
         System.err.println("Warning : trying to get an non-existing component.");
@@ -53,9 +70,23 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public ArrayList<GameObject> getGameObjectsByClass(String className) {
         ArrayList<GameObject> gos = new ArrayList<GameObject>();
-        for (GameObject go : gameObjects) {
-            if (go.getClass().getSimpleName().equals(className)) {
-                gos.add(go);
+        for (Drawable go : drawables) {
+            if (go.isGameObject()) {
+                if (go.getClass().getSimpleName().equals(className)) {
+                    gos.add((GameObject) go);
+                }
+            }
+        }
+        return gos;
+    }
+
+    public ArrayList<GameObject> getGameObjectsByClassInHUD(String className) {
+        ArrayList<GameObject> gos = new ArrayList<GameObject>();
+        for (Drawable go : drawablesHUD) {
+            if (go.isGameObject()) {
+                if (go.getClass().getSimpleName().equals(className)) {
+                    gos.add((GameObject) go);
+                }
             }
         }
         return gos;
@@ -63,9 +94,23 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public ArrayList<GameObject> getGameObjectsByTag(String tag) {
         ArrayList<GameObject> gos = new ArrayList<GameObject>();
-        for (GameObject go : gameObjects) {
-            if (go.getTag().equals(tag)) {
-                gos.add(go);
+        for (Drawable go : drawables) {
+            if (go.isGameObject()) {
+                if (((GameObject) go).getTag().equals(tag)) {
+                    gos.add((GameObject) go);
+                }
+            }
+        }
+        return gos;
+    }
+
+    public ArrayList<GameObject> getGameObjectsByTagInHUD(String tag) {
+        ArrayList<GameObject> gos = new ArrayList<GameObject>();
+        for (Drawable go : drawablesHUD) {
+            if (go.isGameObject()) {
+                if (((GameObject) go).getTag().equals(tag)) {
+                    gos.add((GameObject) go);
+                }
             }
         }
         return gos;
@@ -75,12 +120,12 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         game.setScreen(screen);
     }
 
-    public void addGameObject(GameObject go) {
-        this.gameObjects.add(go);
+    public void add(Drawable go) {
+        this.drawables.add(go);
     }
 
-    public void addGameObjectInHUD(GameObject go) {
-        this.hud.add(go);
+    public void addInHUD(Drawable go) {
+        this.drawablesHUD.add(go);
     }
 
     public void render (float delta) {
@@ -88,7 +133,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
 
-        for (String layout : getLayouts()) {
+        /*for (String layout : getLayouts()) {
             for (GameObject go : gameObjects) {
                 if (go.getLayout().equals(layout)) {
                     go.render();
@@ -101,6 +146,25 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             if (go.getLayout() == "") {
                 go.render();
                 go.update();
+            }
+        }*/
+
+        ArrayList<Integer> zindexes = new ArrayList<Integer>();
+
+        for (Drawable d : drawables) {
+            if (!zindexes.contains(d.getLayout())) {
+                zindexes.add(d.getLayout());
+            }
+        }
+
+        Collections.sort(zindexes);
+
+        for (int z : zindexes) {
+            for (Drawable d : drawables) {
+                if (d.getLayout() == z) {
+                    d.render();
+                    d.update();
+                }
             }
         }
 
@@ -115,16 +179,16 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
         }
 
-        for (UICanvas canvas : uiCanvases) {
+        /*for (UICanvas canvas : uiCanvases) {
             canvas.render();
-        }
+        }*/
 
         update();
 
     }
 
     public void renderHUD() {
-        for (GameObject go : hud) {
+        for (Drawable go : drawablesHUD) {
             go.renderInHUD();
             go.update();
         }
@@ -150,25 +214,22 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
     public void dispose() {
         rayHandler.dispose();
-        for (UICanvas canvas : uiCanvases) {
-            canvas.dispose();
+        for (Drawable canvas : drawables) {
+            if (canvas.getClass().getSimpleName().equals("UICanvas")) {
+                ((UICanvas) canvas).dispose();
+            }
+        }
+        for (Drawable canvas : drawablesHUD) {
+            if (canvas.getClass().getSimpleName().equals("UICanvas")) {
+                ((UICanvas) canvas).dispose();
+            }
         }
     }
 
-    public void addLayout(String name, int z) {
-        layouts.add(z, name);
-    }
-
-    public ArrayList<String> getLayouts() {
-        return layouts;
-    }
 
     public void isLightsEnabled(boolean b) {
         lightsEnabled = b;
     }
 
-    public void addUICanvas(UICanvas canvas) {
-        uiCanvases.add(canvas);
-    }
 
 }
