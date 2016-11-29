@@ -12,6 +12,7 @@ public class Wall extends GameObject {
 
     public Wall(Transform transform, float width, float height) {
         super(transform);
+        setLayout(4);
         addComponent(new BoxRenderer(this, width, height, Color.BLUE));
         addComponent(new BoxBody(this, width, height, BodyDef.BodyType.StaticBody));
     }

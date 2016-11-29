@@ -22,8 +22,9 @@ public class Player extends GameObject {
 
     public Player(Transform transform) {
         super(transform);
+        setLayout(5);
         addComponent(new SpriteRenderer(this, Gdx.files.internal("badlogic.jpg")));
-        body = new BoxBody(this, 50, 60, BodyDef.BodyType.DynamicBody);
+        body = new BoxBody(this, 100, 120, BodyDef.BodyType.DynamicBody);
         addComponent(body);
         animManager = new AnimationManager(this);
         addComponent(animManager);

@@ -134,22 +134,6 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
 
-        /*for (String layout : getLayouts()) {
-            for (GameObject go : gameObjects) {
-                if (go.getLayout().equals(layout)) {
-                    go.render();
-                    go.update();
-                }
-            }
-        }
-
-        for (GameObject go : gameObjects) {
-            if (go.getLayout() == "") {
-                go.render();
-                go.update();
-            }
-        }*/
-
         zindexes = new ArrayList<Integer>();
 
         for (Drawable d : drawables) {
@@ -169,6 +153,23 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }
 
+        if (lightsEnabled) {
+            Game.batch.end();
+            rayHandler.setCombinedMatrix(camera);
+            rayHandler.updateAndRender();
+            Game.batch.begin();
+        }
+
+        if (Game.debugging) {
+            colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
+        }
+
+
+        update();
+
+    }
+
+    public void renderHUD() {
         zindexesHUD = new ArrayList<Integer>();
 
         for (Drawable d : drawablesHUD) {
@@ -182,35 +183,10 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         for (int z : zindexesHUD) {
             for (Drawable d : drawablesHUD) {
                 if (d.getLayout() == z) {
-                    d.render();
+                    d.renderInHUD();
                     d.update();
                 }
             }
-        }
-
-        if (lightsEnabled) {
-            Game.batch.end();
-            rayHandler.setCombinedMatrix(camera);
-            rayHandler.updateAndRender();
-            Game.batch.begin();
-        }
-
-        if (Game.debugging) {
-            colliderRenderer.render(world, Game.batch.getProjectionMatrix().cpy());
-        }
-
-        /*for (UICanvas canvas : uiCanvases) {
-            canvas.render();
-        }*/
-
-        update();
-
-    }
-
-    public void renderHUD() {
-        for (Drawable go : drawablesHUD) {
-            go.renderInHUD();
-            go.update();
         }
     }
 

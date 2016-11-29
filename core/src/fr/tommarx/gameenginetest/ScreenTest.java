@@ -41,9 +41,8 @@ public class ScreenTest extends Screen {
             EmptyGameObject hudTest = new EmptyGameObject(new Transform(new Vector2(20, 20)));
             hudTest.addComponent(new BoxRenderer(hudTest, 20, 20, Color.BLUE));
             addInHUD(hudTest);
-            //rayHandler.setAmbientLight(255,255,255,.2f);
-            //PointLight light = new PointLight(rayHandler, 500, Color.WHITE, 1000, Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
-        }
+        
+    }
 
         public void update() {
             Game.debug(1, "DEBUG MODE");
@@ -52,7 +51,7 @@ public class ScreenTest extends Screen {
                 Game.debugging = !Game.debugging;
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
-                //activateLights();
+                isLightsEnabled(true);
                 rayHandler.setAmbientLight(.7f);
                 new PointLight(rayHandler, 500, Color.BLUE, 1000, Gdx.graphics.getWidth() - 10, Gdx.graphics.getHeight() - 10);
             }
