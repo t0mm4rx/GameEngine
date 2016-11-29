@@ -25,6 +25,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public World world;
     private Box2DDebugRenderer colliderRenderer;
     private boolean lightsEnabled;
+    private ArrayList<Integer> zindexes, zindexesHUD;
 
     public Screen (Game game) {
         this.game = game;
@@ -149,7 +150,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
             }
         }*/
 
-        ArrayList<Integer> zindexes = new ArrayList<Integer>();
+        zindexes = new ArrayList<Integer>();
 
         for (Drawable d : drawables) {
             if (!zindexes.contains(d.getLayout())) {
@@ -161,6 +162,25 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
 
         for (int z : zindexes) {
             for (Drawable d : drawables) {
+                if (d.getLayout() == z) {
+                    d.render();
+                    d.update();
+                }
+            }
+        }
+
+        zindexesHUD = new ArrayList<Integer>();
+
+        for (Drawable d : drawablesHUD) {
+            if (!zindexesHUD.contains(d.getLayout())) {
+                zindexesHUD.add(d.getLayout());
+            }
+        }
+
+        Collections.sort(zindexesHUD);
+
+        for (int z : zindexesHUD) {
+            for (Drawable d : drawablesHUD) {
                 if (d.getLayout() == z) {
                     d.render();
                     d.update();
