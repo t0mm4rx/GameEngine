@@ -7,9 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 import fr.tommarx.gameengine.Components.BoxBody;
+import fr.tommarx.gameengine.Components.BoxRenderer;
 import fr.tommarx.gameengine.Components.ConeLight;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
 import fr.tommarx.gameengine.Components.Transform;
+import fr.tommarx.gameengine.Easing.Tween;
 import fr.tommarx.gameengine.Game.EmptyGameObject;
 import fr.tommarx.gameengine.Game.Game;
 import fr.tommarx.gameengine.Game.Screen;
@@ -18,7 +20,7 @@ import fr.tommarx.gameengine.UI.UICanvas;
 
 public class LightScreen extends Screen {
 
-    EmptyGameObject player;
+    EmptyGameObject player, overlay;
     UICanvas ui;
 
     public LightScreen(Game game) {
@@ -67,6 +69,13 @@ public class LightScreen extends Screen {
         /*UICanvas ui = new UICanvas(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, Gdx.files.internal("testskin/uiskin.json"));
         add(ui);*/
 
+        overlay = new EmptyGameObject(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)));
+        overlay.addComponent(new BoxRenderer(overlay, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new Color(0, 0, 0, 0)));
+        overlay.setLayout(1);
+        add(overlay);
+
+        Game.tweenManager.goTween(new Tween("AlphaLights", Tween.LINEAR_EASE_NONE, 1f, -1f, 1f, 0f, false));
+
     }
 
     public void update() {
@@ -102,6 +111,8 @@ public class LightScreen extends Screen {
                 ));
             }
         }
+
+        ((BoxRenderer) overlay.getComponentByClass("BoxRenderer")).setColor(new Color(0, 0, 0, Game.tweenManager.getValue("AlphaLights")));
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             Game.debugging = !Game.debugging;

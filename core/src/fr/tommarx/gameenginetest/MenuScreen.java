@@ -49,8 +49,8 @@ public class MenuScreen extends Screen{
         button.addListener(new ChangeListener() {
 
             public void changed(ChangeEvent event, Actor actor) {
-                Game.tweenManager.goTween(new Tween("AlphaMenu", Tween.LINEAR_EASE_INOUT, 0f, 1f, 1f, 0f, false));
-                Game.waitAndDo(1.5f, new Callable() {
+                Game.tweenManager.goTween(new Tween("AlphaMenu", Tween.LINEAR_EASE_NONE, 0f, 1f, 1f, 0f, false));
+                Game.waitAndDo(1f, new Callable() {
                     public Object call() throws Exception {
                         setScreen(new LightScreen(game));
                         return null;

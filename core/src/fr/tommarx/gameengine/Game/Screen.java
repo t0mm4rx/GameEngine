@@ -152,7 +152,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
                 }
             }
         }
-
+        
         if (lightsEnabled) {
             Game.batch.end();
             rayHandler.setCombinedMatrix(camera);
