@@ -12,13 +12,28 @@ public class SpriteRenderer extends Component {
 
     private TextureRegion texture;
     private GameObject go;
-    private float width, height;
+    private float width, height, offsetX, offsetY;
 
     public SpriteRenderer (GameObject go, FileHandle texture) {
         this.texture = new TextureRegion(new Texture(texture));
         this.go = go;
         width = getTexture().getWidth();
         height = getTexture().getHeight();
+        offsetX = 0;
+        offsetY = 0;
+    }
+
+    public void setOffset(float x, float y) {
+        offsetX = x;
+        offsetY = y;
+    }
+
+    public float getOffsetX() {
+        return offsetX;
+    }
+
+    public float getOffsetY() {
+        return offsetY;
     }
 
     public void setTexture(TextureRegion texture) {
@@ -27,8 +42,8 @@ public class SpriteRenderer extends Component {
 
     public void render() {
         Game.batch.draw(texture,
-                go.getTransform().getPosition().x - width / 2,
-                go.getTransform().getPosition().y - height / 2,
+                go.getTransform().getPosition().x - width / 2 + offsetX,
+                go.getTransform().getPosition().y - height / 2 + offsetY,
                 width / 2,
                 height / 2,
                 width,
@@ -40,8 +55,8 @@ public class SpriteRenderer extends Component {
 
     public void renderInHUD() {
         Game.HUDbatch.draw(texture,
-                go.getTransform().getPosition().x - width / 2,
-                go.getTransform().getPosition().y - height / 2,
+                go.getTransform().getPosition().x - width / 2 + offsetX,
+                go.getTransform().getPosition().y - height / 2 + offsetY,
                 width / 2,
                 height / 2,
                 width,
