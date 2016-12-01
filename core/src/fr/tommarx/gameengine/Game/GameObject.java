@@ -8,6 +8,7 @@ import java.util.UUID;
 import fr.tommarx.gameengine.Components.Component;
 import fr.tommarx.gameengine.Components.SpriteRenderer;
 import fr.tommarx.gameengine.Components.Transform;
+import fr.tommarx.gameengine.Util.LayoutSorter;
 
 public abstract class GameObject extends Drawable {
 
@@ -74,13 +75,13 @@ public abstract class GameObject extends Drawable {
     }
 
     public void render() {
-        for (Component comp : components) {
+        for (Component comp : LayoutSorter.sortComponentsByLayout(components)) {
             comp.render();
         }
     }
 
     public void renderInHUD() {
-        for (Component comp : components) {
+        for (Component comp : LayoutSorter.sortComponentsByLayout(components)) {
             comp.renderInHUD();
         }
     }

@@ -12,20 +12,18 @@ import java.util.Collections;
 
 import box2dLight.RayHandler;
 import fr.tommarx.gameengine.UI.UICanvas;
+import fr.tommarx.gameengine.Util.LayoutSorter;
 
 public abstract class Screen implements com.badlogic.gdx.Screen {
 
-    //protected ArrayList<GameObject> gameObjects;
     protected ArrayList<Drawable> drawables;
     protected ArrayList<Drawable> drawablesHUD;
-    //protected ArrayList<GameObject> hud;
     public OrthographicCamera camera;
     protected Game game;
     protected RayHandler rayHandler;
     public World world;
     private Box2DDebugRenderer colliderRenderer;
     private boolean lightsEnabled;
-    private ArrayList<Integer> zindexes, zindexesHUD;
 
     public Screen (Game game) {
         this.game = game;
@@ -134,25 +132,11 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
 
-        zindexes = new ArrayList<Integer>();
-
-        for (Drawable d : drawables) {
-            if (!zindexes.contains(d.getLayout())) {
-                zindexes.add(d.getLayout());
-            }
+        for (Drawable d : LayoutSorter.sortByLayout(drawables)) {
+            d.render();
+            d.update();
         }
 
-        Collections.sort(zindexes);
-
-        for (int z : zindexes) {
-            for (Drawable d : drawables) {
-                if (d.getLayout() == z) {
-                    d.render();
-                    d.update();
-                }
-            }
-        }
-        
         if (lightsEnabled) {
             Game.batch.end();
             rayHandler.setCombinedMatrix(camera);
@@ -170,23 +154,9 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
     public void renderHUD() {
-        zindexesHUD = new ArrayList<Integer>();
-
-        for (Drawable d : drawablesHUD) {
-            if (!zindexesHUD.contains(d.getLayout())) {
-                zindexesHUD.add(d.getLayout());
-            }
-        }
-
-        Collections.sort(zindexesHUD);
-
-        for (int z : zindexesHUD) {
-            for (Drawable d : drawablesHUD) {
-                if (d.getLayout() == z) {
-                    d.renderInHUD();
-                    d.update();
-                }
-            }
+        for (Drawable d : LayoutSorter.sortByLayout(drawablesHUD)) {
+            d.renderInHUD();
+            d.update();
         }
     }
 
