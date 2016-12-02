@@ -6,7 +6,7 @@
 - [x] UI screens
 - [x] UI components
 - [ ] Sound management
-- [ ] Layers differents scrolling speed
+- [x] Layers differents scrolling speed
 - [x] Better fonts
 - [x] Collisions callback
 - [x] Lights :)

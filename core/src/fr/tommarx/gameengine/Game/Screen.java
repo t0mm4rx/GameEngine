@@ -24,6 +24,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     public World world;
     private Box2DDebugRenderer colliderRenderer;
     private boolean lightsEnabled;
+    private Vector2 lastCamPosition;
 
     public Screen (Game game) {
         this.game = game;
@@ -39,6 +40,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         rayHandler.setCombinedMatrix(camera);
         rayHandler.setBlur(true);
         lightsEnabled = false;
+        lastCamPosition = new Vector2();
     }
 
     public GameObject getGameObjectByClass(String className) {
@@ -131,6 +133,15 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         camera.update();
         Game.batch.setProjectionMatrix(camera.combined);
+
+        Vector2 cam_move = new Vector2(camera.position.x - lastCamPosition.x, camera.position.y - lastCamPosition.y);
+        Game.debug(2, cam_move.x + " && " + cam_move.y);
+        for (Drawable d : drawables) {
+            if (d.isGameObject()) {
+                ((GameObject) d).getTransform().setPosition(new Vector2(((GameObject) d).getTransform().getPosition().x + cam_move.x * d.getScrollingSpeed(), ((GameObject) d).getTransform().getPosition().y));
+            }
+        }
+        lastCamPosition = new Vector2(camera.position.x, camera.position.y);
 
         for (Drawable d : LayoutSorter.sortByLayout(drawables)) {
             d.render();

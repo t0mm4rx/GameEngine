@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import fr.tommarx.gameengine.Game.Game;
 import fr.tommarx.gameengine.Game.GameObject;
@@ -12,7 +13,10 @@ public class SpriteRenderer extends Component {
 
     private TextureRegion texture;
     private GameObject go;
-    private float width, height, offsetX, offsetY;
+    private float width;
+    private float height;
+    private float offsetX;
+    private float offsetY;
 
     public SpriteRenderer (GameObject go, FileHandle texture) {
         this.texture = new TextureRegion(new Texture(texture));
@@ -21,6 +25,15 @@ public class SpriteRenderer extends Component {
         height = getTexture().getHeight();
         offsetX = 0;
         offsetY = 0;
+    }
+
+    public SpriteRenderer (GameObject go, FileHandle texture, float offsetX, float offsetY) {
+        this.texture = new TextureRegion(new Texture(texture));
+        this.go = go;
+        width = getTexture().getWidth();
+        height = getTexture().getHeight();
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
     }
 
     public void setOffset(float x, float y) {
@@ -51,6 +64,7 @@ public class SpriteRenderer extends Component {
                 go.getTransform().getScale().x,
                 go.getTransform().getScale().y,
                 go.getTransform().getRotation());
+
     }
 
     public void renderInHUD() {

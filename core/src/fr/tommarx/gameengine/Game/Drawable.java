@@ -4,6 +4,7 @@ package fr.tommarx.gameengine.Game;
 public abstract class Drawable {
 
     private int z = 0;
+    private float scrollingSpeed = 0;
     protected boolean isGameObject = false;
 
     public abstract void render();
@@ -20,6 +21,14 @@ public abstract class Drawable {
 
     public int getLayout() {
         return z;
+    }
+
+    public float getScrollingSpeed() {
+        return scrollingSpeed;
+    }
+
+    public void setScrollingSpeed(float s) {
+        scrollingSpeed = s;
     }
 
 }
