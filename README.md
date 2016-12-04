@@ -162,6 +162,21 @@ To change the ambiance light :
     isLightsEnabled(true);
     rayHandler.setAmbientLight(1f, 1f, 1f, .03f);
 ```
+##Maps
+The game engine has his own map format. You can import a map like this :
+```java
+        ArrayList<EmptyGameObject> map = MapReader.read(Gdx.files.internal("map.map"));
+
+        for (EmptyGameObject go : map) {
+            add(go);
+        }
+```
+Maps files have this format :
+````
+        tag:Wall,x:300,y:300,components:type=SpriteRenderer-image=level/wall.jpeg--type=BoxBody-width=64-height=64-bodyType=Static
+        tag:Wall,x:364,y:300,components:type=SpriteRenderer-image=level/wall.jpeg--type=BoxBody-width=64-height=64-bodyType=Static
+        tag:Wall,x:428,y:300,components:type=SpriteRenderer-image=level/wall.jpeg--type=BoxBody-width=64-height=64-bodyType=Static
+```
 ##Components
 Components are small pieces of code that will animate game objects.
 Game objects have just one component by default : the transform. Transform contains location, scale and rotation of the game obect.
@@ -216,6 +231,12 @@ Animation manager will contain all animations that the game object require. The 
         animManager.addAnimation(new Animation(this, new Texture(Gdx.files.internal("walk_right.png")), 6, 5, 0.025f, true), 1);
         //Setting the current animation to the walk_left animation
         animManager.setCurrentAnimation(0);
+        
+        //Get the current anim's id, returns -1 if no animation has been called
+        int current = animManager.getCurrentAnimation();
+        
+        //Set the current animation to null
+        animManager.setCurrentAnimation(-1);
 ```
 ####Text
 Text displays text with BitmapFont.

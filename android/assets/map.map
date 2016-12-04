@@ -1,0 +1,3 @@
+tag:Wall,x:300,y:300,components:type=SpriteRenderer-image=level/wall.jpeg--type=BoxBody-width=64-height=64-bodyType=Static
+tag:Wall,x:364,y:300,components:type=SpriteRenderer-image=level/wall.jpeg--type=BoxBody-width=64-height=64-bodyType=Static
+tag:Wall,x:428,y:300,components:type=SpriteRenderer-image=level/wall.jpeg--type=BoxBody-width=64-height=64-bodyType=Static
