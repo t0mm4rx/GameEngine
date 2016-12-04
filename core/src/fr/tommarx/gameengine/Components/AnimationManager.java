@@ -12,9 +12,11 @@ public class AnimationManager extends Component {
     GameObject go;
     ArrayList<fr.tommarx.gameengine.Util.Animation> anims;
     fr.tommarx.gameengine.Util.Animation currentAnimation;
+    boolean isRendering;
     float stateTime;
 
     public AnimationManager(GameObject go) {
+        isRendering = false;
         this.go = go;
         anims = new ArrayList<fr.tommarx.gameengine.Util.Animation>();
         stateTime = 0f;
@@ -26,8 +28,9 @@ public class AnimationManager extends Component {
 
     public void setCurrentAnimation(int id) {
         stateTime = 0f;
+        isRendering = true;
         if (id == -1) {
-            currentAnimation = null;
+            isRendering = false;
             return;
         }
         for (Animation a : anims) {
@@ -40,14 +43,19 @@ public class AnimationManager extends Component {
     }
 
     public void render() {
-        if (go.getSpriteRenderer() != null) {
-            go.getSpriteRenderer().setTexture(currentAnimation.getAnimation().getKeyFrame(stateTime, currentAnimation.isLooping()));
-        } else {
-            System.err.println("Game object has no sprite renderer !");
+        if (isRendering) {
+            if (go.getSpriteRenderer() != null) {
+                go.getSpriteRenderer().setTexture(currentAnimation.getAnimation().getKeyFrame(stateTime, currentAnimation.isLooping()));
+            } else {
+                System.err.println("Game object has no sprite renderer !");
+            }
         }
     }
 
     public int getCurrentAnimation() {
+        if (!isRendering) {
+            return -1;
+        }
         if (currentAnimation != null) {
             return currentAnimation.getId();
         }
