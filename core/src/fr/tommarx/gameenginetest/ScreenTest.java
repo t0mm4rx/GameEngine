@@ -22,7 +22,7 @@ public class ScreenTest extends Screen {
 
     public void show() {
 
-            add(new Player(new Transform(new Vector2(300,300), new Vector2(0.2f, 0.2f), 0)));
+            //add(new Player(new Transform(new Vector2(300,300), new Vector2(0.2f, 0.2f), 0)));
             add(new Wall(new Transform(new Vector2(Gdx.graphics.getWidth() / 2, 50)), 500, 10));
             EmptyGameObject go = new EmptyGameObject(new Transform(new Vector2(300, 300), new Vector2(2, 2), 0));
             go.addComponent(new Text(go, Gdx.files.internal("font.ttf"), 40, "Test !!", Color.WHITE));

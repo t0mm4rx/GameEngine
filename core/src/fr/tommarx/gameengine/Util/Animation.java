@@ -10,10 +10,12 @@ public class Animation {
     com.badlogic.gdx.graphics.g2d.Animation anim;
     GameObject go;
     boolean looping;
+    private int id;
 
-    public Animation (GameObject go, Texture texture, int cols, int rows, float speed, boolean looping) {
+    public Animation (GameObject go, Texture texture, int cols, int rows, float speed, boolean looping, int id) {
         this.go = go;
         this.looping = looping;
+        this.id = id;
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() / cols, texture.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];
         int i = 0;
@@ -28,6 +30,10 @@ public class Animation {
 
     public com.badlogic.gdx.graphics.g2d.Animation getAnimation() {
         return anim;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public boolean isLooping() {

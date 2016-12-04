@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import java.util.ArrayList;
 
 import fr.tommarx.gameengine.Game.GameObject;
+import fr.tommarx.gameengine.Util.Animation;
 
 public class AnimationManager extends Component {
 
@@ -19,13 +20,19 @@ public class AnimationManager extends Component {
         stateTime = 0f;
     }
 
-    public void addAnimation(fr.tommarx.gameengine.Util.Animation anim, int id) {
-        anims.add(id, anim);
+    public void addAnimation(fr.tommarx.gameengine.Util.Animation anim) {
+        anims.add(anim);
     }
 
     public void setCurrentAnimation(int id) {
         stateTime = 0f;
-        currentAnimation = anims.get(id);
+        for (Animation a : anims) {
+            if (a.getId() == id) {
+                currentAnimation = a;
+                return;
+            }
+        }
+        currentAnimation = anims.get(0);
     }
 
     public void render() {
@@ -34,6 +41,13 @@ public class AnimationManager extends Component {
         } else {
             System.err.println("Game object has no sprite renderer !");
         }
+    }
+
+    public int getCurrentAnimation() {
+        if (currentAnimation != null) {
+            return currentAnimation.getId();
+        }
+        return -1;
     }
 
     public void renderInHUD() {

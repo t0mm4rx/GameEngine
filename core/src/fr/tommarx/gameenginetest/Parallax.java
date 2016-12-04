@@ -47,7 +47,7 @@ public class Parallax extends Screen{
 
     public void update() {
 
-        Game.debug(1, camera.position.x + "");
+        //Game.debug(1, camera.position.x + "");
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             camera.translate(2, 0);

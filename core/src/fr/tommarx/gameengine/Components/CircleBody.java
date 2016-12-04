@@ -1,5 +1,6 @@
 package fr.tommarx.gameengine.Components;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -69,6 +70,9 @@ public class CircleBody extends Component{
 
     public float getRadius() {
         return radius;
+    }
+    public Body getBody() {
+        return body;
     }
 
 }

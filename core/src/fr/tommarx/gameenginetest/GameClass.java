@@ -6,7 +6,7 @@ public class GameClass extends Game {
 
 	public void create () {
 		init();
-		setScreen(new LightScreen(this));
+		setScreen(new LD37Warmup(this));
 	}
 
 	

@@ -135,7 +135,6 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
         Game.batch.setProjectionMatrix(camera.combined);
 
         Vector2 cam_move = new Vector2(camera.position.x - lastCamPosition.x, camera.position.y - lastCamPosition.y);
-        Game.debug(2, cam_move.x + " && " + cam_move.y);
         for (Drawable d : drawables) {
             if (d.isGameObject()) {
                 ((GameObject) d).getTransform().setPosition(new Vector2(((GameObject) d).getTransform().getPosition().x + cam_move.x * d.getScrollingSpeed(), ((GameObject) d).getTransform().getPosition().y));
