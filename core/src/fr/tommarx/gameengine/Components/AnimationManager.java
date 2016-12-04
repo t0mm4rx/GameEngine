@@ -26,6 +26,10 @@ public class AnimationManager extends Component {
 
     public void setCurrentAnimation(int id) {
         stateTime = 0f;
+        if (id == -1) {
+            currentAnimation = null;
+            return;
+        }
         for (Animation a : anims) {
             if (a.getId() == id) {
                 currentAnimation = a;
