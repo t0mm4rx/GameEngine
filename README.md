@@ -121,6 +121,8 @@ Layouts can be used to render game objects by priority. Exemple :
     EmptyGameObject background = new EmptyGameObject(new Transform(new Vector2(100, 100)));
     background.addComponent(new SpriteRenderer(background, new TextureRegion(new Texture(Gdx.files.internal("background.jpg")))));
     background.setLayout(0);
+    //We can also set the scrolling speed to create a parallax effect
+    background.setScrollingSpeed(0.2);
     add(background);
     EmptyGameObject player = ...;
     player.setLayer(1);
