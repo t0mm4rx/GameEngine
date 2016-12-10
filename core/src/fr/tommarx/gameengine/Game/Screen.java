@@ -21,7 +21,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     protected ArrayList<Drawable> drawablesHUD;
     public OrthographicCamera camera;
     protected Game game;
-    protected RayHandler rayHandler;
+    public RayHandler rayHandler;
     public World world;
     private Box2DDebugRenderer colliderRenderer;
     private boolean lightsEnabled;
@@ -204,7 +204,7 @@ public abstract class Screen implements com.badlogic.gdx.Screen {
     }
 
 
-    public void isLightsEnabled(boolean b) {
+    public void areLightsEnabled(boolean b) {
         lightsEnabled = b;
     }
 
