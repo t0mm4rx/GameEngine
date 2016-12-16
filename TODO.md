@@ -10,5 +10,6 @@
 - [x] Better fonts
 - [x] Collisions callback
 - [x] Lights :)
-- [ ] Map
+- [x] Map
+- [ ] Map editor :)
 - [ ] Particles

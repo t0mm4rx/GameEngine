@@ -1,3 +1,5 @@
+Please use the version 2 : https://github.com/t0mm4rx/GameEngine-v.2/
+
 # GameEngine
 ## Initialisation
 Create a LibGDX project (via the setup tool), and then just add the engine jar.
